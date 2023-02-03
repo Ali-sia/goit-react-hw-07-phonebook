@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
-import { getContacts, getFilter } from '../../redux/slice';
+import { getContacts, getFilter } from '../../redux/selectors';
 
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import Contact from '../Contact/index';
 import { ContactListStyled } from './ContactList.styled';
@@ -20,7 +20,7 @@ const ContactList = () => {
   return (
     <ContactListStyled>
       {filteredContacts.map(contact => {
-        return <Contact key={contact.contactId} contact={contact} />;
+        return <Contact key={contact.id} contact={contact} />;
       })}
     </ContactListStyled>
   );
@@ -28,12 +28,12 @@ const ContactList = () => {
 
 export default ContactList;
 
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-};
+// ContactList.propTypes = {
+//   contacts: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       id: PropTypes.string.isRequired,
+//       name: PropTypes.string.isRequired,
+//       number: PropTypes.string.isRequired,
+//     })
+//   ),
+// };

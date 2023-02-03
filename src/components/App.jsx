@@ -1,7 +1,9 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getContacts, addContact } from '../redux/slice';
+import { fetchContacts } from '../redux/operations';
+import { getError, getIsLoading } from '../redux/selectors';
 
 import { GlobalStyle } from './GlobalStyle';
 import { Box } from './Box';
@@ -13,23 +15,30 @@ import Title from './Title/index';
 
 export const App = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
 
-  function addNewContact(newContact) {
-    if (contacts.find(contact => contact.name === newContact.name)) {
-      alert(`${newContact.name} is already in contacts.`);
-    } else {
-      dispatch(addContact(newContact));
-    }
-  }
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  // function addNewContact(newContact) {
+  //   if (contacts.find(contact => contact.name === newContact.name)) {
+  //     alert(`${newContact.name} is already in contacts.`);
+  //   } else {
+  //     dispatch(addContact(newContact));
+  //   }
+  // }
 
   return (
     <Box pr={4} pl={4} color="text" width="400px">
       <Title children="Add contact" />
-      <ContactForm onSubmitContact={addNewContact} />
+      <ContactForm />
 
       <Title children="Contacts" />
       <Filter />
+      {isLoading && !error && <b>Request in progress...</b>}
+      {!isLoading && !error && <b>DONE</b>}
       <ContactList />
 
       <GlobalStyle />
@@ -37,13 +46,13 @@ export const App = () => {
   );
 };
 
-App.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-  filter: PropTypes.string,
-};
+// App.propTypes = {
+//   contacts: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       id: PropTypes.string.isRequired,
+//       name: PropTypes.string.isRequired,
+//       number: PropTypes.string.isRequired,
+//     })
+//   ),
+//   filter: PropTypes.string,
+// };

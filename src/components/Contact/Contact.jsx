@@ -1,21 +1,23 @@
 // import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/slice';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteContact } from '../../redux/operations';
+import { getIsLoading } from '../../redux/selectors';
+
 import { StyledButton } from '../App.styled';
 import { ContactItem } from './Contact.styled';
 
-const Contact = ({ contact, onDeleteContact }) => {
+const Contact = ({ contact }) => {
   const dispatch = useDispatch();
-  const { contactId, name, number } = contact;
-
-  const handleDelete = () => dispatch(deleteContact(contactId));
+  const isLoading = useSelector(getIsLoading);
+  const { id, name, number } = contact;
+  const handleDelete = () => dispatch(deleteContact(id));
 
   return (
-    <ContactItem key={contact.contactId}>
+    <ContactItem key={id}>
       <p>
         {name}, {number}
       </p>
-      <StyledButton type="button" onClick={handleDelete}>
+      <StyledButton type="button" disabled={isLoading} onClick={handleDelete}>
         Delete
       </StyledButton>
     </ContactItem>
