@@ -22,14 +22,6 @@ export const App = () => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  // function addNewContact(newContact) {
-  //   if (contacts.find(contact => contact.name === newContact.name)) {
-  //     alert(`${newContact.name} is already in contacts.`);
-  //   } else {
-  //     dispatch(addContact(newContact));
-  //   }
-  // }
-
   return (
     <Box pr={4} pl={4} color="text" width="400px">
       <Title children="Add contact" />

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { addContact } from '../../redux/operations';
+import { getContacts } from '../../redux/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 
 // import PropTypes from 'prop-types';
@@ -9,6 +10,7 @@ import { nanoid } from '../../../node_modules/nanoid/index';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -23,9 +25,15 @@ const ContactForm = () => {
       name,
       number,
     };
-    dispatch(addContact(newContact));
-    setName('');
-    setNumber('');
+
+    if (contacts.find(contact => contact.name === newContact.name)) {
+      alert(`${newContact.name} is already in contacts.`);
+    } else {
+      dispatch(addContact(newContact));
+
+      setName('');
+      setNumber('');
+    }
   };
 
   return (
